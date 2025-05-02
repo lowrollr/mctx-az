@@ -17,14 +17,16 @@
 import functools
 import json
 
-from absl import logging
-from absl.testing import absltest
-from absl.testing import parameterized
 import chex
 import jax
 import jax.numpy as jnp
-import mctx
 import numpy as np
+from absl import logging
+from absl.testing import absltest, parameterized
+
+import mctx
+
+jax.config.update("jax_threefry_partitionable", False)
 
 
 def _prepare_root(batch_size, num_actions):
@@ -166,13 +168,13 @@ class TreeTest(parameterized.TestCase):
   # the number of parameter configurations passed to test_tree.
   # pylint: disable=line-too-long
   MUZERO_TREES = [("muzero_norescale",
-          "../mctx/_src/tests/test_data/muzero_tree.json"),
+          "./mctx/_src/tests/test_data/muzero_tree.json"),
           ("muzero_qtransform",
-          "../mctx/_src/tests/test_data/muzero_qtransform_tree.json")]
+          "./mctx/_src/tests/test_data/muzero_qtransform_tree.json")]
   GUMBEL_MUZERO_TREES = [("gumbel_muzero_norescale",
-          "../mctx/_src/tests/test_data/gumbel_muzero_tree.json"),
+          "./mctx/_src/tests/test_data/gumbel_muzero_tree.json"),
           ("gumbel_muzero_reward",
-          "../mctx/_src/tests/test_data/gumbel_muzero_reward_tree.json")]
+          "./mctx/_src/tests/test_data/gumbel_muzero_reward_tree.json")]
   TREES = MUZERO_TREES + GUMBEL_MUZERO_TREES
   # pylint: enable=line-too-long
 
@@ -250,7 +252,7 @@ class TreeTest(parameterized.TestCase):
           invalid_actions=invalid_actions,
           **tree["algorithm_config"])
 
-    policy_output = jax.jit(run_policy)()
+    policy_output = jax.jit(run_policy)()  # pylint: disable=not-callable
     logging.info("Done search.")
 
     return tree_to_pytree(policy_output.search_tree), policy_output.search_tree

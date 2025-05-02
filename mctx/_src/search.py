@@ -20,8 +20,7 @@ import chex
 import jax
 import jax.numpy as jnp
 
-from mctx._src import action_selection
-from mctx._src import base
+from mctx._src import action_selection, base
 from mctx._src import tree as tree_lib
 
 Tree = tree_lib.Tree
@@ -216,7 +215,7 @@ def expand(
   chex.assert_shape([parent_index, action, next_node_index], (batch_size,))
 
   # Retrieve states for nodes to be evaluated.
-  embedding = jax.tree_util.tree_map(
+  embedding = jax.tree.map(
       lambda x: x[batch_range, parent_index], tree.embeddings)
 
   # Evaluate and create a new node.
@@ -336,7 +335,7 @@ def update_tree_node(
           tree.node_values, value, node_index),
       node_visits=batch_update(
           tree.node_visits, new_visit, node_index),
-      embeddings=jax.tree_util.tree_map(
+      embeddings=jax.tree.map(
           lambda t, s: batch_update(t, s, node_index),
           tree.embeddings, embedding))
 

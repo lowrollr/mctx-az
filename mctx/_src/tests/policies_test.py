@@ -22,6 +22,8 @@ import mctx
 from mctx._src import policies
 import numpy as np
 
+jax.config.update("jax_threefry_partitionable", False)
+
 
 def _make_bandit_recurrent_fn(rewards, dummy_embedding=()):
   """Returns a recurrent_fn with discount=0."""
@@ -245,7 +247,7 @@ class PoliciesTest(absltest.TestCase):
 
     # Testing max_depth.
     leaf, max_found_depth = _get_deepest_leaf(
-        jax.tree_util.tree_map(lambda x: x[0], policy_output.search_tree),
+        jax.tree.map(lambda x: x[0], policy_output.search_tree),
         policy_output.search_tree.ROOT_INDEX)
     self.assertEqual(max_depth, max_found_depth)
     self.assertEqual(6, policy_output.search_tree.node_visits[0, leaf])
