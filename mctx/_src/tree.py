@@ -227,7 +227,7 @@ def get_subtree(
             translation[x])))
 
   def translate_pytree(x, null_value=0):
-    return jax.tree_map(
+    return jax.tree.map(
         lambda t: translate(t, null_value=null_value), x)
 
   return tree.replace(
