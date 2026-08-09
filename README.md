@@ -55,7 +55,7 @@ in-bounds predecessors are updated.
 ## Examples
 The mctx readme links to a simple Connect4 example: https://github.com/Carbon225/mctx-classic
 
-I modified this example to demonstrate the use of `alphazero_policy` and `get_subtree`. You can see it [here](https://github.com/lowrollr/mctx-az/blob/main/connect4.ipynb)
+I modified this example to demonstrate the use of `alphazero_policy` and `get_subtree`. You can see it [here](https://github.com/jcbmrshll/mctx-az/blob/main/connect4.ipynb)
 
 ## Issues
 If you run into problems or need help, please create an Issue and I will do my best to assist you promptly.
